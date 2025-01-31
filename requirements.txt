@@ -2,3 +2,4 @@ google.generativeai
 pandas
 flask
 flask-cors
+gunicorn

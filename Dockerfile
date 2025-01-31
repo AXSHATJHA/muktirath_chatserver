@@ -15,7 +15,7 @@ FROM python:3.9-slim
 WORKDIR /app
 
 # Install google.generativeai in the final stage
-RUN pip install --no-cache-dir google-generativeai
+RUN pip install --no-cache-dir google-generativeai gunicorn
 
 # Copy only necessary files from the builder stage
 COPY --from=builder /app/deps /usr/local/lib/python3.9/site-packages
@@ -27,5 +27,5 @@ EXPOSE 5000
 # Define environment variable to avoid buffering in logs
 ENV PYTHONUNBUFFERED=1
 
-# Run the application
-CMD ["python", "app.py"]
+# Run the application using Gunicorn
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "app:app"]
